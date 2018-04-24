@@ -1755,11 +1755,7 @@ static struct edfhdrblock * edflib_check_edf_file(FILE *inputfile, int *edf_erro
     {
       if((scratchpad[j]<32)||(scratchpad[j]>126))
       {
-        *edf_error = EDFLIB_FILE_ERRORS_LABEL;
-        free(edf_hdr);
-        free(edfhdr->edfparam);
-        free(edfhdr);
-        return(NULL);
+        scratchpad[j] = '?';
       }
     }
     if(edfhdr->edfplus)
@@ -1780,7 +1776,7 @@ static struct edfhdrblock * edflib_check_edf_file(FILE *inputfile, int *edf_erro
         edfhdr->edfparam[i].annotation = 1;
       }
     }
-    strncpy(edfhdr->edfparam[i].label, edf_hdr + 256 + (i * 16), 16);
+    strncpy(edfhdr->edfparam[i].label, scratchpad, 16);
     edfhdr->edfparam[i].label[16] = 0;
   }
   if(edfhdr->edfplus&&(!edfhdr->nr_annot_chns))
