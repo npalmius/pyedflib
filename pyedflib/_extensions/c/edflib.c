@@ -1346,14 +1346,11 @@ static struct edfhdrblock * edflib_check_edf_file(FILE *inputfile, int *edf_erro
   {
     if((((unsigned char *)scratchpad)[i]<32)||(((unsigned char *)scratchpad)[i]>126))
     {
-      *edf_error = EDFLIB_FILE_CONTAINS_FORMAT_ERRORS;
-      free(edf_hdr);
-      free(edfhdr);
-      return(NULL);
+      scratchpad[i] = '?';
     }
   }
 
-  strncpy(edfhdr->patient, edf_hdr + 8, 80);
+  strncpy(edfhdr->patient, scratchpad, 80);
   edfhdr->patient[80] = 0;
 
 /********************* RECORDING *********************************************/
